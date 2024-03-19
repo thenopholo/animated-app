@@ -1,10 +1,9 @@
-
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:rive/rive.dart';
+
+import '../components/animated_btn.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -12,6 +11,9 @@ class OnboardingScreen extends StatefulWidget {
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
+
+
+
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   late RiveAnimationController _btnAnimationController;
@@ -62,7 +64,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const Spacer(),
                   const SizedBox(
                     width: 260,
                     child: Column(
@@ -82,57 +86,25 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                   ),
                   // ANIMATED BUTTON
-                  AnimatedButton(btnAnimationController: _btnAnimationController)
+                  const Spacer(flex: 2),
+                  AnimatedButton(
+                    btnAnimationController: _btnAnimationController,
+                    press: () {
+                      //This is to trigger the animation
+                      _btnAnimationController.isActive = true;
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 24),
+                    child: Text(
+                      "puchase includes acess to 30+ courses, 240+ premium tutorials, 20+ projects, and more.",
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class AnimatedButton extends StatelessWidget {
-  const AnimatedButton({
-    super.key,
-    required RiveAnimationController btnAnimationController,
-  }) : _btnAnimationController = btnAnimationController;
-
-  final RiveAnimationController _btnAnimationController;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        //This is to trigger the animation
-        _btnAnimationController.isActive = true;
-      },
-      child: SizedBox(
-        height: 64,
-        width: 260,
-        child: Stack(
-          children: [
-            RiveAnimation.asset(
-              "assets/RiveAssets/button.riv",
-              controllers: [_btnAnimationController],
-            ),
-            const Positioned.fill(
-              top: 8,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(CupertinoIcons.arrow_right),
-                  SizedBox(width: 8),
-                  Text(
-                    "Start the couser",
-                    style: TextStyle(fontWeight: FontWeight.w600),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
